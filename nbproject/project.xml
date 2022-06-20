@@ -4,7 +4,7 @@
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
             <name>the4</name>
-            <creation-uuid>d5d5dd38-d7da-4413-b8de-7fad96ab2276</creation-uuid>
+            <creation-uuid>6f70eb02-570e-4dfa-8b36-6fed7e3d2e79</creation-uuid>
             <make-project-type>0</make-project-type>
             <c-extensions>c</c-extensions>
             <cpp-extensions/>
@@ -13,7 +13,8 @@
             <sourceEncoding>ISO-8859-1</sourceEncoding>
             <make-dep-projects/>
             <sourceRootList>
-                <sourceRootElem>../picos/Linker</sourceRootElem>
+                <sourceRootElem>picos/Kernel</sourceRootElem>
+                <sourceRootElem>picos/Linker</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>
