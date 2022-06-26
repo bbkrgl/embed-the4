@@ -5,14 +5,15 @@
 /**********************************************************************
  * ----------------------- GLOBAL VARIABLES ---------------------------
  **********************************************************************/
-char* trans_buf = 0;
+
+command cmd_i;
 unsigned char trans_ind = 0;
 char recv_buf[11];
 unsigned char recv_ind = 0;
 unsigned char recv_f = 0;
 unsigned char recv_interpret = 0;
 
-char* cmd_list[] = {
+rom char cmd_list[][20] = {
 	"{GO##}", "{END}",
 	"{F}", "{W}", "{P}",
 	"{C}", "{S###}",
@@ -26,23 +27,23 @@ char* cmd_list[] = {
 void startTransmission(command cmd, char* cmd_args)
 {
 	int i = 2;
-	trans_buf = cmd_list[cmd];
+	cmd_i = cmd;
 	if (cmd == HASH_SEND)
 		for (; i < 18; i++)
-			trans_buf[i] = cmd_args[i];
-	
-	TXREG1 = trans_buf[trans_ind++];
+			cmd_list[cmd][i] = cmd_args[i];
+	trans_ind = 0;
 	TXSTA1bits.TXEN = 1;
+	TXREG1 = cmd_list[cmd][trans_ind++];
 }
 
 void transmitData()
 {
-	if (!trans_buf || !trans_buf[trans_ind]) {
+	if (cmd_list[cmd_i][trans_ind] == '\0') {
 		TXSTA1bits.TXEN = 0;
-		trans_buf = 0;
+		cmd_i = 0;
 		return;
 	}
-	TXREG1 = trans_buf[trans_ind++];
+	TXREG1 = cmd_list[cmd_i][trans_ind++];
 }
 
 /* Invoked when receive interrupt occurs; meaning that data is received */

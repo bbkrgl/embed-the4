@@ -11,7 +11,7 @@
 
 TASK(TASK0)
 {
-	SetRelAlarm(ALARM_TSK0, 100, 5000);
+	SetRelAlarm(ALARM_TSK0, 1000, 500);
 	while (1) {
 		WaitEvent(ALARM_EVENT);
 		ClearEvent(ALARM_EVENT);
