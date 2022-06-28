@@ -44,7 +44,7 @@ void startTransmission(command cmd, char* cmd_args)
 	TXREG1 = cmd_list[cmd][trans_ind++];
 }
 
-void transmitData()
+void transmitDataISR()
 {
 	if (cmd_list[cmd_out][trans_ind] == '\0') {
 		TXSTA1bits.TXEN = 0;
@@ -55,7 +55,7 @@ void transmitData()
 }
 
 /* Invoked when receive interrupt occurs; meaning that data is received */
-void dataReceived()
+void dataReceiveISR()
 {
 	char tmp = RCREG1;
 
@@ -119,13 +119,5 @@ void parseBuffer()
 		break;
 	}
 }
-
-
-
-
-
-
-
-
 
 /* End of File : common.c */

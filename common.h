@@ -16,7 +16,8 @@
 /***********************************************************************
  * ----------------------------- Events --------------------------------
  **********************************************************************/
-#define ALARM_EVENT       0x80
+#define SEND_CMD_EVENT       0x80 //
+#define CHECK_CMD_RESPONSE       0x01
 
 
 /***********************************************************************
@@ -32,7 +33,7 @@
 
 /* Priorities of the tasks */
 #define TASK0_PRIO           8
-#define TASK1_PRIO           8
+#define TASK1_PRIO           1
 #define TASK2_PRIO           8
 
 #define ALARM_TSK0           0
@@ -63,9 +64,9 @@ unsigned char hash[16];
  * ----------------------- FUNCTION PROTOTYPES ------------------------
  **********************************************************************/
 /* transmits data using serial communication */
-void transmitData();
+void transmitDataISR();
 /* Invoked when receive interrupt occurs; meaning that data is received */
-void dataReceived();
+void dataReceiveISR();
 
 void startTransmission(command cmd, char* cmd_args);
 

@@ -38,7 +38,7 @@ AlarmObject Alarm_list[] ={
 		0, /* Cycle                   */
 		&Counter_kernel, /* ptrCounter              */
 		TASK0_ID, /* TaskID2Activate         */
-		ALARM_EVENT, /* EventToPost             */
+		SEND_CMD_EVENT, /* EventToPost             */
 		0 /* CallBack                */
 	},
 	/*******************************************************************
@@ -121,6 +121,9 @@ rom_desc_tsk rom_desc_task1 = {
 	sizeof(stack1) /* stack size    (16 bits)     */
 };
 
+/**********************************************************************
+ * -----------------------------  task 2 ------------------------------
+ **********************************************************************/
 rom_desc_tsk rom_desc_task2 = {
 	TASK2_PRIO, /* prioinit from 0 to 15       */
 	stack2, /* stack address (16 bits)     */
