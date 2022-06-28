@@ -20,6 +20,7 @@ unsigned char hash[16];
 unsigned int hunger_meter = 0;
 unsigned int happy_meter = 0;
 unsigned int thirst_meter = 0;
+unsigned char money_opportunity = 0;
 
 
 char cmd_list[][20] = {
@@ -39,7 +40,7 @@ void startTransmission(command cmd)
 	cmd_out_ = cmd;
 	if (cmd == HASH_SEND)
 		for (; i < 18; i++)
-			cmd_list[cmd][i] = cmd_args[i - 2];
+			cmd_list[cmd][i] = hash[i - 2];
 	trans_ind = 0;
 	TXSTA1bits.TXEN = 1;
 	TXREG1 = cmd_list[cmd][trans_ind++];
@@ -106,6 +107,7 @@ void parseBuffer()
 		cmd_in = ALERT_STR;
 		for (index = 1; index < 9; index++)
 			alert_string[index - 1] = recv_buf[index];
+		money_opportunity = 1;
 		break;
 	case 'M':
 		// MXX  --  Payment Response

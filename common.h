@@ -56,9 +56,10 @@ extern unsigned int curr_money;
 extern unsigned int hunger_meter;
 extern unsigned int happy_meter;
 extern unsigned int thirst_meter;
+extern unsigned char money_opportunity;
 
 extern unsigned char alert_string[8];
-unsigned char hash[16];
+extern unsigned char hash[16];
 
 /**********************************************************************
  * ----------------------- FUNCTION PROTOTYPES ------------------------
@@ -68,7 +69,8 @@ void transmitDataISR();
 /* Invoked when receive interrupt occurs; meaning that data is received */
 void dataReceiveISR();
 
-void startTransmission(command cmd, char* cmd_args);
+void parseBuffer();
+void startTransmission(command cmd);
 
 #endif
 

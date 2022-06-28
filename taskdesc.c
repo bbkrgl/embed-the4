@@ -81,6 +81,7 @@ unsigned char RESOURCENUMBER = _RESOURCENUMBER_;
 #define DEFAULT_STACK_SIZE      256
 DeclareTask(TASK0);
 DeclareTask(TASK1);
+DeclareTask(TASK2);
 
 // to avoid any C18 map error : regroup the stacks into blocks
 // of 256 bytes (except the last one).
