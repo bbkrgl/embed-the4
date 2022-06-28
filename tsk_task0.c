@@ -9,14 +9,16 @@
  * ----------------------- LOCAL FUNCTIONS ----------------------------
  **********************************************************************/
 
+// send all commands periodically (T = 50 ms))
 TASK(TASK0)
 {
-	SetRelAlarm(ALARM_TSK0, 1000, 500);
+	
+	SetRelAlarm(ALARM_TSK0, 0, 50);
 	while (1) {
-		WaitEvent(ALARM_EVENT);
-		ClearEvent(ALARM_EVENT);
-		
-		startTransmission(FEED, 0);
+		WaitEvent(ALARM_TSK0);
+		ClearEvent(ALARM_TSK0);
+
+		startTransmission(cmd_out);
 	}
 	TerminateTask();
 }

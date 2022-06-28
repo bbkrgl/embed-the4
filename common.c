@@ -6,6 +6,7 @@
  * ----------------------- GLOBAL VARIABLES ---------------------------
  **********************************************************************/
 
+command cmd_out_;
 command cmd_out;
 command cmd_in;
 unsigned char trans_ind = 0;
@@ -32,13 +33,13 @@ char cmd_list[][20] = {
  * ----------------------- GLOBAL FUNCTIONS ---------------------------
  **********************************************************************/
 
-void startTransmission(command cmd, char* cmd_args)
+void startTransmission(command cmd)
 {
 	int i = 2;
-	cmd_out = cmd;
+	cmd_out_ = cmd;
 	if (cmd == HASH_SEND)
 		for (; i < 18; i++)
-			cmd_list[cmd][i] = cmd_args[i];
+			cmd_list[cmd][i] = cmd_args[i - 2];
 	trans_ind = 0;
 	TXSTA1bits.TXEN = 1;
 	TXREG1 = cmd_list[cmd][trans_ind++];
