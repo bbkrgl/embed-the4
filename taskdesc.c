@@ -89,6 +89,8 @@ volatile unsigned char stack0[DEFAULT_STACK_SIZE];
 #pragma		udata      STACK_B   
 volatile unsigned char stack1[DEFAULT_STACK_SIZE];
 #pragma		udata
+volatile unsigned char stack2[DEFAULT_STACK_SIZE];
+#pragma		udata
 
 /**********************************************************************
  * ---------------------- TASK DESCRIPTOR SECTION ---------------------
@@ -117,6 +119,15 @@ rom_desc_tsk rom_desc_task1 = {
 	SUSPENDED, /* state at init phase         */
 	TASK1_ID, /* id_tsk from 0 to 15         */
 	sizeof(stack1) /* stack size    (16 bits)     */
+};
+
+rom_desc_tsk rom_desc_task2 = {
+	TASK2_PRIO, /* prioinit from 0 to 15       */
+	stack2, /* stack address (16 bits)     */
+	TASK2, /* start address (16 bits)     */
+	SUSPENDED, /* state at init phase         */
+	TASK2_ID, /* id_tsk from 0 to 15         */
+	sizeof(stack2) /* stack size    (16 bits)     */
 };
 
 

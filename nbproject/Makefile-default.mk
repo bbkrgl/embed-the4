@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=hash.c main.c common.c taskdesc.c tsk_task0.c tsk_task1.c int.c
+SOURCEFILES_QUOTED_IF_SPACED=hash.c main.c common.c taskdesc.c tsk_task0.c tsk_task1.c int.c picos/Kernel/tsk_task2.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/hash.o ${OBJECTDIR}/main.o ${OBJECTDIR}/common.o ${OBJECTDIR}/taskdesc.o ${OBJECTDIR}/tsk_task0.o ${OBJECTDIR}/tsk_task1.o ${OBJECTDIR}/int.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/hash.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/common.o.d ${OBJECTDIR}/taskdesc.o.d ${OBJECTDIR}/tsk_task0.o.d ${OBJECTDIR}/tsk_task1.o.d ${OBJECTDIR}/int.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/hash.o ${OBJECTDIR}/main.o ${OBJECTDIR}/common.o ${OBJECTDIR}/taskdesc.o ${OBJECTDIR}/tsk_task0.o ${OBJECTDIR}/tsk_task1.o ${OBJECTDIR}/int.o ${OBJECTDIR}/picos/Kernel/tsk_task2.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/hash.o.d ${OBJECTDIR}/main.o.d ${OBJECTDIR}/common.o.d ${OBJECTDIR}/taskdesc.o.d ${OBJECTDIR}/tsk_task0.o.d ${OBJECTDIR}/tsk_task1.o.d ${OBJECTDIR}/int.o.d ${OBJECTDIR}/picos/Kernel/tsk_task2.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/hash.o ${OBJECTDIR}/main.o ${OBJECTDIR}/common.o ${OBJECTDIR}/taskdesc.o ${OBJECTDIR}/tsk_task0.o ${OBJECTDIR}/tsk_task1.o ${OBJECTDIR}/int.o
+OBJECTFILES=${OBJECTDIR}/hash.o ${OBJECTDIR}/main.o ${OBJECTDIR}/common.o ${OBJECTDIR}/taskdesc.o ${OBJECTDIR}/tsk_task0.o ${OBJECTDIR}/tsk_task1.o ${OBJECTDIR}/int.o ${OBJECTDIR}/picos/Kernel/tsk_task2.o
 
 # Source Files
-SOURCEFILES=hash.c main.c common.c taskdesc.c tsk_task0.c tsk_task1.c int.c
+SOURCEFILES=hash.c main.c common.c taskdesc.c tsk_task0.c tsk_task1.c int.c picos/Kernel/tsk_task2.c
 
 
 
@@ -158,6 +158,14 @@ ${OBJECTDIR}/int.o: int.c  nbproject/Makefile-${CND_CONF}.mk
 	@${DEP_GEN} -d ${OBJECTDIR}/int.o 
 	@${FIXDEPS} "${OBJECTDIR}/int.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
+${OBJECTDIR}/picos/Kernel/tsk_task2.o: picos/Kernel/tsk_task2.c  nbproject/Makefile-${CND_CONF}.mk 
+	@${MKDIR} "${OBJECTDIR}/picos/Kernel" 
+	@${RM} ${OBJECTDIR}/picos/Kernel/tsk_task2.o.d 
+	@${RM} ${OBJECTDIR}/picos/Kernel/tsk_task2.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1 -p$(MP_PROCESSOR_OPTION) -I"picos/Include" -ms -oa-  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/picos/Kernel/tsk_task2.o   picos/Kernel/tsk_task2.c 
+	@${DEP_GEN} -d ${OBJECTDIR}/picos/Kernel/tsk_task2.o 
+	@${FIXDEPS} "${OBJECTDIR}/picos/Kernel/tsk_task2.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
+	
 else
 ${OBJECTDIR}/hash.o: hash.c  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}" 
@@ -214,6 +222,14 @@ ${OBJECTDIR}/int.o: int.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -I"picos/Include" -ms -oa-  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/int.o   int.c 
 	@${DEP_GEN} -d ${OBJECTDIR}/int.o 
 	@${FIXDEPS} "${OBJECTDIR}/int.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
+	
+${OBJECTDIR}/picos/Kernel/tsk_task2.o: picos/Kernel/tsk_task2.c  nbproject/Makefile-${CND_CONF}.mk 
+	@${MKDIR} "${OBJECTDIR}/picos/Kernel" 
+	@${RM} ${OBJECTDIR}/picos/Kernel/tsk_task2.o.d 
+	@${RM} ${OBJECTDIR}/picos/Kernel/tsk_task2.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE) -p$(MP_PROCESSOR_OPTION) -I"picos/Include" -ms -oa-  -I ${MP_CC_DIR}/../h  -fo ${OBJECTDIR}/picos/Kernel/tsk_task2.o   picos/Kernel/tsk_task2.c 
+	@${DEP_GEN} -d ${OBJECTDIR}/picos/Kernel/tsk_task2.o 
+	@${FIXDEPS} "${OBJECTDIR}/picos/Kernel/tsk_task2.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c18 
 	
 endif
 

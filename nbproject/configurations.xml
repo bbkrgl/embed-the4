@@ -22,6 +22,7 @@
       <itemPath>tsk_task0.c</itemPath>
       <itemPath>tsk_task1.c</itemPath>
       <itemPath>int.c</itemPath>
+      <itemPath>picos/Kernel/tsk_task2.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

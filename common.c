@@ -6,14 +6,22 @@
  * ----------------------- GLOBAL VARIABLES ---------------------------
  **********************************************************************/
 
-command cmd_i;
+command cmd_out;
+command cmd_in;
 unsigned char trans_ind = 0;
 char recv_buf[11];
 unsigned char recv_ind = 0;
 unsigned char recv_f = 0;
-unsigned char recv_interpret = 0;
 
-rom char cmd_list[][20] = {
+unsigned int curr_money = 0;
+unsigned char alert_string[8];
+unsigned char hash[16];
+unsigned int hunger_meter = 0;
+unsigned int happy_meter = 0;
+unsigned int thirst_meter = 0;
+
+
+char cmd_list[][20] = {
 	"{GO##}", "{END}",
 	"{F}", "{W}", "{P}",
 	"{C}", "{S###}",
@@ -27,7 +35,7 @@ rom char cmd_list[][20] = {
 void startTransmission(command cmd, char* cmd_args)
 {
 	int i = 2;
-	cmd_i = cmd;
+	cmd_out = cmd;
 	if (cmd == HASH_SEND)
 		for (; i < 18; i++)
 			cmd_list[cmd][i] = cmd_args[i];
@@ -38,12 +46,12 @@ void startTransmission(command cmd, char* cmd_args)
 
 void transmitData()
 {
-	if (cmd_list[cmd_i][trans_ind] == '\0') {
+	if (cmd_list[cmd_out][trans_ind] == '\0') {
 		TXSTA1bits.TXEN = 0;
-		cmd_i = 0;
+		cmd_out = 0;
 		return;
 	}
-	TXREG1 = cmd_list[cmd_i][trans_ind++];
+	TXREG1 = cmd_list[cmd_out][trans_ind++];
 }
 
 /* Invoked when receive interrupt occurs; meaning that data is received */
@@ -61,10 +69,63 @@ void dataReceived()
 
 	if (tmp == '}') {
 		recv_f = 0;
-		recv_interpret = 1;
+		parseBuffer();
+		return;
 	}
 
 	recv_buf[recv_ind++] = tmp;
 }
+
+
+
+// Command reciever from serial communication
+
+void parseBuffer()
+{
+	int index = 0;
+	unsigned int money = 0;
+
+	switch (recv_buf[0]) {
+	case 'S':
+		// SXYZ  --  Sensor Response (Response to Check)
+		cmd_in = SENSOR_RESP;
+		hunger_meter = recv_buf[1];
+		happy_meter = recv_buf[2];
+		thirst_meter = recv_buf[3];
+		break;
+	case 'G':
+		// GOXX  --  GO Command
+		cmd_in = GO;
+		money = recv_buf[2] << 8;
+		money += recv_buf[3];
+		curr_money = money;
+		break;
+	case 'A':
+		// ASTR  --  Alert Command
+		cmd_in = ALERT_STR;
+		for (index = 1; index < 9; index++)
+			alert_string[index - 1] = recv_buf[index];
+		break;
+	case 'M':
+		// MXX  --  Payment Response
+		cmd_in = MONEY;
+		money = recv_buf[1] << 8;
+		money += recv_buf[2];
+		curr_money += money;
+		break;
+	case 'E':
+		// END  --  END Command
+		cmd_in = END;
+		break;
+	}
+}
+
+
+
+
+
+
+
+
 
 /* End of File : common.c */

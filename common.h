@@ -28,10 +28,12 @@
  */
 #define TASK0_ID             1
 #define TASK1_ID             2
+#define TASK2_ID             4
 
 /* Priorities of the tasks */
 #define TASK0_PRIO           8
 #define TASK1_PRIO           8
+#define TASK2_PRIO           8
 
 #define ALARM_TSK0           0
 #define ALARM_TSK1           1
@@ -40,15 +42,22 @@
  * ----------------------- GLOBAL DEFINITIONS -------------------------
  **********************************************************************/
 
-extern char recv_buf[11];
-extern unsigned char recv_interpret;
-
 typedef enum {
 	GO, END,
 	FEED, WATER, PLAY,
 	CHECK, SENSOR_RESP,
 	HASH_SEND, ALERT_STR, MONEY
 } command;
+
+extern command cmd_out;
+
+extern unsigned int curr_money;
+extern unsigned int hunger_meter;
+extern unsigned int happy_meter;
+extern unsigned int thirst_meter;
+
+extern unsigned char alert_string[8];
+unsigned char hash[16];
 
 /**********************************************************************
  * ----------------------- FUNCTION PROTOTYPES ------------------------
