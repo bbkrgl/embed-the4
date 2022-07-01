@@ -11,10 +11,13 @@
 
 TASK(TASK2)
 {
-	SetRelAlarm(ALARM_TSK1, 100, 50);
+	PIE1bits.RCIE = 1;
 	while (1) {
-		//WaitEvent(ALARM_EVENT);
-		//ClearEvent(ALARM_EVENT);
+		// TODO: LCD
+		if (cmd_in == GO) {
+			ActivateTask(TASK0_ID);
+			break;
+		}
 	}
 	TerminateTask();
 }

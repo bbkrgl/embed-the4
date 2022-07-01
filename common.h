@@ -16,8 +16,8 @@
 /***********************************************************************
  * ----------------------------- Events --------------------------------
  **********************************************************************/
-#define SEND_CMD_EVENT       0x80 //
-#define CHECK_CMD_RESPONSE       0x01
+#define SEND_CMD_EVENT      0x80 //
+#define CHECK_CMD_RESPONSE  0x01
 
 
 /***********************************************************************
@@ -44,13 +44,14 @@
  **********************************************************************/
 
 typedef enum {
-	GO, END,
+    GO, END,
 	FEED, WATER, PLAY,
 	CHECK, SENSOR_RESP,
 	HASH_SEND, ALERT_STR, MONEY
 } command;
 
 extern command cmd_out;
+extern command cmd_in;
 
 extern unsigned int curr_money;
 extern unsigned int hunger_meter;

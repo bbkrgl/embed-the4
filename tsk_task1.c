@@ -28,14 +28,15 @@ char play_crtcl_flag = 0;
 
 TASK(TASK1)
 {
-	SetRelAlarm(ALARM_TSK1, 100, 50);
+	//SetRelAlarm(ALARM_TSK1, 100, 50);
 
 	while (1) {
+		WaitEvent(CHECK_CMD_RESPONSE);
+		ClearEvent(CHECK_CMD_RESPONSE);
 
 		feed_crtcl_flag = hunger_meter < FEED_CRITICAL;
 		water_crtcl_flag = thirst_meter < WATER_CRITICAL;
 		play_crtcl_flag = happy_meter < PLAY_CRITICAL;
-
 
 		if (water_crtcl_flag)
 			cmd_out = WATER;

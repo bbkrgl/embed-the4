@@ -7,8 +7,8 @@
  **********************************************************************/
 
 command cmd_out_;
-command cmd_out;
-command cmd_in;
+command cmd_out = CHECK;
+command cmd_in = -1;
 unsigned char trans_ind = 0;
 char recv_buf[11];
 unsigned char recv_ind = 0;
@@ -48,12 +48,12 @@ void startTransmission(command cmd)
 
 void transmitDataISR()
 {
-	if (cmd_list[cmd_out][trans_ind] == '\0') {
+	if (cmd_list[cmd_out_][trans_ind] == '\0') {
 		TXSTA1bits.TXEN = 0;
-		cmd_out = 0;
+		cmd_out_ = 0;
 		return;
 	}
-	TXREG1 = cmd_list[cmd_out][trans_ind++];
+	TXREG1 = cmd_list[cmd_out_][trans_ind++];
 }
 
 /* Invoked when receive interrupt occurs; meaning that data is received */
@@ -62,6 +62,7 @@ void dataReceiveISR()
 	char tmp = RCREG1;
 
 	if (tmp == '{') {
+		recv_ind = 0;
 		recv_f = 1;
 		return;
 	}
@@ -70,6 +71,7 @@ void dataReceiveISR()
 		return;
 
 	if (tmp == '}') {
+		recv_ind = 0;
 		recv_f = 0;
 		parseBuffer();
 		return;
@@ -78,10 +80,7 @@ void dataReceiveISR()
 	recv_buf[recv_ind++] = tmp;
 }
 
-
-
-// Command reciever from serial communication
-
+// Command receiver from serial communication
 void parseBuffer()
 {
 	int index = 0;
