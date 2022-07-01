@@ -117,7 +117,7 @@ rom_desc_tsk rom_desc_task1 = {
 	TASK1_PRIO, /* prioinit from 0 to 15       */
 	stack1, /* stack address (16 bits)     */
 	TASK1, /* start address (16 bits)     */
-	SUSPENDED, /* state at init phase         */
+	READY, /* state at init phase         */
 	TASK1_ID, /* id_tsk from 0 to 15         */
 	sizeof(stack1) /* stack size    (16 bits)     */
 };

@@ -10,16 +10,16 @@ command cmd_out_;
 command cmd_out = CHECK;
 command cmd_in = -1;
 unsigned char trans_ind = 0;
-char recv_buf[11];
+unsigned char recv_buf[11];
 unsigned char recv_ind = 0;
 unsigned char recv_f = 0;
 
 unsigned int curr_money = 0;
 unsigned char alert_string[8];
 unsigned char hash[16];
-unsigned int hunger_meter = 0;
-unsigned int happy_meter = 0;
-unsigned int thirst_meter = 0;
+unsigned int hunger_meter = 100;
+unsigned int happy_meter = 100;
+unsigned int thirst_meter = 100;
 unsigned char money_opportunity = 0;
 
 
@@ -74,6 +74,8 @@ void dataReceiveISR()
 		recv_ind = 0;
 		recv_f = 0;
 		parseBuffer();
+		if (cmd_in != GO || cmd_in != END)
+			SetEvent(TASK1_ID, CHECK_CMD_RESPONSE);
 		return;
 	}
 
@@ -97,8 +99,9 @@ void parseBuffer()
 	case 'G':
 		// GOXX  --  GO Command
 		cmd_in = GO;
-		money = recv_buf[2] << 8;
-		money += recv_buf[3];
+		money = recv_buf[2]; // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+		money <<= 8; // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+		money += recv_buf[3]; // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 		curr_money = money;
 		break;
 	case 'A':
@@ -111,7 +114,8 @@ void parseBuffer()
 	case 'M':
 		// MXX  --  Payment Response
 		cmd_in = MONEY;
-		money = recv_buf[1] << 8;
+		money = recv_buf[1];
+		money <<= 8;
 		money += recv_buf[2];
 		curr_money += money;
 		break;

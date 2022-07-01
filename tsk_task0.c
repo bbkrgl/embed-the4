@@ -21,8 +21,7 @@ TASK(TASK0)
 			break;
 
 		startTransmission(cmd_out);
-
-		SetEvent(TASK1_ID, CHECK_CMD_RESPONSE);
+		cmd_out = CHECK;
 	}
 	TerminateTask();
 }
