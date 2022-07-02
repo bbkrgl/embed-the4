@@ -17,6 +17,7 @@ unsigned char recv_f = 0;
 unsigned int curr_money = 0;
 unsigned char alert_string[8];
 unsigned char hash[16];
+unsigned char hash_done = 0;
 unsigned int hunger_meter = 100;
 unsigned int happy_meter = 100;
 unsigned int thirst_meter = 100;
@@ -50,7 +51,8 @@ void transmitDataISR()
 {
 	if (cmd_list[cmd_out_][trans_ind] == '\0') {
 		TXSTA1bits.TXEN = 0;
-		cmd_out_ = 0;
+		cmd_out_ = CHECK;
+		SetEvent(TASK0_ID, TRANSMISSION_DONE);
 		return;
 	}
 	TXREG1 = cmd_list[cmd_out_][trans_ind++];
@@ -74,8 +76,6 @@ void dataReceiveISR()
 		recv_ind = 0;
 		recv_f = 0;
 		parseBuffer();
-		if (cmd_in != GO || cmd_in != END)
-			SetEvent(TASK1_ID, CHECK_CMD_RESPONSE);
 		return;
 	}
 
@@ -101,7 +101,7 @@ void parseBuffer()
 		cmd_in = GO;
 		money = recv_buf[2]; // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 		money <<= 8; // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-		money += recv_buf[3]; // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+		money += recv_buf[3]; // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 		curr_money = money;
 		break;
 	case 'A':
@@ -110,6 +110,7 @@ void parseBuffer()
 		for (index = 1; index < 9; index++)
 			alert_string[index - 1] = recv_buf[index];
 		money_opportunity = 1;
+		SetEvent(TASK3_ID, HASH_GO);
 		break;
 	case 'M':
 		// MXX  --  Payment Response

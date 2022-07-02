@@ -16,8 +16,9 @@
 /***********************************************************************
  * ----------------------------- Events --------------------------------
  **********************************************************************/
-#define SEND_CMD_EVENT      0x80 //
-#define CHECK_CMD_RESPONSE  0x01
+#define SEND_CMD_EVENT      0x80
+#define HASH_GO             0x01
+#define TRANSMISSION_DONE   0x02
 
 
 /***********************************************************************
@@ -30,11 +31,13 @@
 #define TASK0_ID             1
 #define TASK1_ID             2
 #define TASK2_ID             4
+#define TASK3_ID             8
 
 /* Priorities of the tasks */
-#define TASK0_PRIO           8
+#define TASK0_PRIO           5
 #define TASK1_PRIO           1
-#define TASK2_PRIO           8
+#define TASK2_PRIO           2
+#define TASK3_PRIO           4
 
 #define ALARM_TSK0           0
 #define ALARM_TSK1           1
@@ -61,6 +64,7 @@ extern unsigned char money_opportunity;
 
 extern unsigned char alert_string[8];
 extern unsigned char hash[16];
+extern unsigned char hash_done;
 
 /**********************************************************************
  * ----------------------- FUNCTION PROTOTYPES ------------------------

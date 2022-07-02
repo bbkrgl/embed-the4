@@ -16,6 +16,7 @@ TASK(TASK2)
 		// TODO: LCD
 		if (cmd_in == GO) {
 			ActivateTask(TASK0_ID);
+			SetEvent(TASK0_ID, TRANSMISSION_DONE);
 			break;
 		}
 	}

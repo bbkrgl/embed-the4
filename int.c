@@ -42,12 +42,14 @@ void InterruptVectorL(void)
 	if (INTCONbits.TMR0IF == 1)
 		AddOneTick();
 	/* Here are the other interrupts you would desire to manage */
-	if (PIR1bits.TX1IF == 1)
+	if (PIR1bits.TX1IF == 1) {
+		PIR1bits.TX1IF == 0;
 		transmitDataISR();
+	}
 
 	if (PIR1bits.RC1IF == 1) {
-		dataReceiveISR();
 		PIR1bits.RC1IF = 0; // clear RC1IF flag
+		dataReceiveISR();
 	}
 
 	if (RCSTA1bits.OERR) {
