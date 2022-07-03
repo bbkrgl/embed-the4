@@ -50,12 +50,15 @@
 /**********************************************************************
  * ----------------------- GLOBAL DEFINITIONS -------------------------
  **********************************************************************/
+typedef enum {
+    HUNGER, HAPPY, THIRST
+} LCDdisplayState;
 
 typedef enum {
     GO, END,
-	FEED, WATER, PLAY,
-	CHECK, SENSOR_RESP,
-	HASH_SEND, ALERT_STR, MONEY
+    FEED, WATER, PLAY,
+    CHECK, SENSOR_RESP,
+    HASH_SEND, ALERT_STR, MONEY
 } command;
 
 extern command cmd_out;

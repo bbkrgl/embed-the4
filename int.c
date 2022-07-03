@@ -55,6 +55,7 @@ void InterruptVectorL(void)
 	
 	if (INTCON3bits.INT1IF == 1) {
 		INTCON3bits.INT1IF == 0;
+		switchLCD();
 	}
 
 	if (RCSTA1bits.OERR) {

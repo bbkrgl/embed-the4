@@ -23,6 +23,79 @@ unsigned int happy_meter = 100;
 unsigned int thirst_meter = 100;
 unsigned char money_opportunity = 0;
 
+LCDdisplayState LCDstate = HUNGER;
+
+char money_display[17] = "";
+char hunger_display[17] = "HUNGER          ";
+char happy_display[17] = "HAPPY:          ";
+char thirst_display[17] = "THIRST          ";
+
+void updateLCD()
+{
+	int i;
+	unsigned char numBars = 0;
+
+	sprintf(money_display, "MONEY:%10d", curr_money);
+
+	LcdPrintString(money_display, 0, 0);
+
+	switch (LCDstate) {
+	case HUNGER:
+		numBars = hunger_meter / 100;
+
+		for (i = 0; i < numBars; i++) {
+			hunger_display[6 + i] = 0xFF;
+		}
+
+		for (; i < 10; i++) {
+			hunger_display[6 + i] = ' ';
+		}
+
+		LcdPrintString(hunger_display, 0, 1);
+
+	case HAPPY:
+		numBars = happy_meter / 100;
+
+		for (i = 0; i < numBars; i++) {
+			happy_display[6 + i] = 0xFF;
+		}
+
+		for (; i < 10; i++) {
+			happy_display[6 + i] = ' ';
+		}
+
+		LcdPrintString(happy_display, 0, 1);
+
+	case THIRST:
+		numBars = thirst_meter / 100;
+
+		for (i = 0; i < numBars; i++) {
+			thirst_display[6 + i] = 0xFF;
+		}
+
+		for (; i < 10; i++) {
+			thirst_display[6 + i] = ' ';
+		}
+
+		LcdPrintString(thirst_display, 0, 1);
+
+	}
+
+}
+
+void switchLCD()
+{
+	switch (LCDstate) {
+	case HUNGER:
+		LCDstate = HAPPY;
+	case HAPPY:
+		LCDstate = THIRST;
+	case THIRST:
+		LCDstate = HUNGER;
+	}
+
+	updateLCD();
+}
 
 char cmd_list[][20] = {
 	"{GO##}", "{END}",
@@ -83,6 +156,7 @@ void dataReceiveISR()
 }
 
 // Command receiver from serial communication
+
 void parseBuffer()
 {
 	int index = 0;
