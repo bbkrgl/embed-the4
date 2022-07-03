@@ -11,7 +11,7 @@
 
 #define WATER_COST 30
 #define WATER_RESTORE 30
-#define WATER_CRITICAL 40
+#define WATER_CRITICAL 20
 
 
 #define PLAY_COST 150
@@ -26,7 +26,7 @@
 
 TASK(TASK0)
 {
-	SetRelAlarm(ALARM_TSK0, 50, 50);
+	SetRelAlarm(ALARM_TSK0, 50, 60);
 	while (1) {
 		WaitEvent(SEND_CMD_EVENT);
 		ClearEvent(SEND_CMD_EVENT);

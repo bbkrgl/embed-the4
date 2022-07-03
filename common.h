@@ -4,6 +4,8 @@
 #include "device.h"
 #include <string.h>
 
+#define _XTAL_FREQ   40000000
+
 /***********************************************************************
  * ------------------------ Timer settings -----------------------------
  **********************************************************************/
@@ -19,6 +21,9 @@
 #define SEND_CMD_EVENT      0x80
 #define HASH_GO             0x01
 #define TRANSMISSION_DONE   0x02
+#define ALARM_EVENT         0x04
+#define LCD_INIT            0x10
+#define LCD_EVENT           0x08
 
 
 /***********************************************************************
@@ -29,18 +34,18 @@
  * TASK1: USART
  */
 #define TASK0_ID             1
-#define TASK1_ID             2
+#define LCD_ID               2
 #define TASK2_ID             4
 #define TASK3_ID             8
 
 /* Priorities of the tasks */
 #define TASK0_PRIO           5
-#define TASK1_PRIO           1
+#define LCD_PRIO             4
 #define TASK2_PRIO           2
-#define TASK3_PRIO           4
+#define TASK3_PRIO           5
 
 #define ALARM_TSK0           0
-#define ALARM_TSK1           1
+#define LCD_ALARM_ID         1
 
 /**********************************************************************
  * ----------------------- GLOBAL DEFINITIONS -------------------------

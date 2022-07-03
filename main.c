@@ -1,6 +1,7 @@
 #pragma config OSC = HSPLL, FCMEN = OFF, IESO = OFF, PWRT = OFF, BOREN = OFF, WDT = OFF, MCLRE = ON, LPT1OSC = OFF, LVP = OFF, XINST = OFF, DEBUG = OFF
 
 #include "common.h"
+#include "lcd.h"
 
 /**********************************************************************
  * Definition dedicated to the local functions.
@@ -58,10 +59,42 @@ void Init(void)
 	TMR0H = Tmr0.bt[1];
 	TMR0L = Tmr0.bt[0];
 
+	TRISA = 0;
+	TRISC = 0;
+	TRISE = 0;
+	TRISF = 0;
+	TRISG = 0;
+
+	TRISH = 0;
+	TRISJ = 0;
+
+	PORTA = 0;
+	PORTC = 0;
+	PORTE = 0;
+	PORTF = 0;
+	PORTG = 0;
+
+	PORTH = 0;
+	PORTJ = 0;
+
+	LATBbits.LATB5 = 0; // E  = 0
+	LATBbits.LATB2 = 0; // RS = 0
+	LATDbits.LATD4 = 0; // Data bus = 0
+	LATDbits.LATD5 = 0; // Data bus = 0
+	LATDbits.LATD6 = 0; // Data bus = 0
+	LATDbits.LATD7 = 0; // Data bus = 0
+	TRISBbits.TRISB5 = 0; // Make Output
+	TRISBbits.TRISB2 = 0; // Make Output
+	TRISDbits.TRISD4 = 0; // Make Output
+	TRISDbits.TRISD5 = 0; // Make Output
+	TRISDbits.TRISD6 = 0; // Make Output
+	TRISDbits.TRISD7 = 0; // Make Output
+	LATBbits.LATB5 = 0; // E  = 0
+	LATBbits.LATB2 = 0; // RS = 0
+	
 	/* configure I/O ports */
 	TRISCbits.RC7 = 1; // TX1 and RX1 pin configuration
 	TRISCbits.RC6 = 0;
-
 
 	/* configure USART transmitter/receiver */
 	SPBRG1 = 21; // for 40 MHz, to have 115200 baud rate, it should be 21
@@ -75,7 +108,13 @@ void Init(void)
 	PIE1bits.TX1IE = 1; // enable USART transmit interrupt
 	PIE1bits.RC1IE = 1; // enable USART receive interrupt
 	PIR1 = 0; // clear all peripheral flags
-
+	
+	
+	TRISBbits.RB1 = 1;
+	INTCON3 = 0;
+	INTCON3bits.INT1IE = 1;
+	INTCON2bits.INTEDG1 = 1;
+	
 	INTCONbits.PEIE = 1; // enable peripheral interrupts
 	INTCONbits.GIE = 1; // globally enable interrupts
 }

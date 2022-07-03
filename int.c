@@ -1,4 +1,5 @@
 #include "common.h"
+#include "lcd.h"
 
 /**********************************************************************
  * Function you want to call when an IT occurs.
@@ -50,6 +51,10 @@ void InterruptVectorL(void)
 	if (PIR1bits.RC1IF == 1) {
 		PIR1bits.RC1IF = 0; // clear RC1IF flag
 		dataReceiveISR();
+	}
+	
+	if (INTCON3bits.INT1IF == 1) {
+		INTCON3bits.INT1IF == 0;
 	}
 
 	if (RCSTA1bits.OERR) {

@@ -1,4 +1,5 @@
 #include "common.h"
+#include "hash.h"
 
 TASK(TASK3)
 {
