@@ -22,8 +22,8 @@
 #define HASH_GO             0x01
 #define TRANSMISSION_DONE   0x02
 #define ALARM_EVENT         0x04
-#define LCD_INIT            0x10
 #define LCD_EVENT           0x08
+#define LCD_DONE            0x10
 
 
 /***********************************************************************
@@ -40,7 +40,7 @@
 
 /* Priorities of the tasks */
 #define TASK0_PRIO           5
-#define LCD_PRIO             4
+#define LCD_PRIO             6
 #define TASK2_PRIO           2
 #define TASK3_PRIO           5
 
@@ -51,7 +51,7 @@
  * ----------------------- GLOBAL DEFINITIONS -------------------------
  **********************************************************************/
 typedef enum {
-    HUNGER, HAPPY, THIRST
+    INIT, HUNGER, HAPPY, THIRST
 } LCDdisplayState;
 
 typedef enum {
@@ -64,14 +64,18 @@ typedef enum {
 extern command cmd_out;
 extern command cmd_in;
 
+extern LCDdisplayState LCDstate;
+
 extern unsigned int curr_money;
 extern unsigned int hunger_meter;
 extern unsigned int happy_meter;
 extern unsigned int thirst_meter;
 extern unsigned char money_opportunity;
 
+extern unsigned char update_lcd;
+
 extern unsigned char alert_string[8];
-extern unsigned char hash[16];
+extern unsigned char hash[17];
 extern unsigned char hash_done;
 
 /**********************************************************************
@@ -84,6 +88,9 @@ void dataReceiveISR();
 
 void parseBuffer();
 void startTransmission(command cmd);
+
+void switchLCD();
+void updateLCD();
 
 #endif
 

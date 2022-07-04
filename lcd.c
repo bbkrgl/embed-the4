@@ -194,7 +194,6 @@ void InitLCD(void)
 	ToggleEpinOfLCD(); // Give pulse on E pin
 
 	Delay_LCD_ms(1);
-	//__delay_us(300);
 
 	PORTD &= 0x0F; // Make Data pins zero
 	PORTD |= 0x30; // Write 0x3 value on data bus
@@ -211,8 +210,8 @@ void InitLCD(void)
 	WriteCommandToLCD(0x2C); //function set  //2C ya da 2D
 	WriteCommandToLCD(0x0C); //display on,cursor off,blink off //OxOC cursor offf
 	WriteCommandToLCD(0x01); //clear display
-		
-	SetEvent(TASK2_ID, LCD_INIT);
+
+	SetEvent(TASK2_ID, LCD_DONE);
 }
 
 /**********************************************************************

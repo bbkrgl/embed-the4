@@ -51,11 +51,17 @@ TASK(TASK0)
 			thirst_meter += WATER_RESTORE;
 		} else {
 			if (hash_done) {
-				hash_done = 0;
 				cmd_out = HASH_SEND;
+				hash_done = 0;
 			} else {
 				cmd_out = CHECK;
 			}
+		}
+
+		if (update_lcd) {
+			update_lcd = 0;
+			updateLCD();
+			update_lcd = 0;
 		}
 
 		startTransmission(cmd_out);

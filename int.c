@@ -43,19 +43,13 @@ void InterruptVectorL(void)
 	if (INTCONbits.TMR0IF == 1)
 		AddOneTick();
 	/* Here are the other interrupts you would desire to manage */
-	if (PIR1bits.TX1IF == 1) {
-		PIR1bits.TX1IF == 0;
+	
+	if (PIR1bits.TX1IF)
 		transmitDataISR();
-	}
 
-	if (PIR1bits.RC1IF == 1) {
+	if (PIR1bits.RC1IF) {
 		PIR1bits.RC1IF = 0; // clear RC1IF flag
 		dataReceiveISR();
-	}
-	
-	if (INTCON3bits.INT1IF == 1) {
-		INTCON3bits.INT1IF == 0;
-		switchLCD();
 	}
 
 	if (RCSTA1bits.OERR) {
@@ -63,6 +57,25 @@ void InterruptVectorL(void)
 		RCSTA1bits.CREN = 1;
 	}
 
+	if (INTCON3bits.INT1IF) {
+		INTCON3bits.INT1IF = 0;
+		switch (LCDstate) {
+		case HUNGER:
+			LCDstate = HAPPY;
+			break;
+		case HAPPY:
+			LCDstate = THIRST;
+			break;
+		case INIT:
+		case THIRST:
+			LCDstate = HUNGER;
+			break;
+		}
+
+		if (update_lcd != 1)
+			update_lcd = 1;
+	}
+	
 	LeaveISR();
 }
 #pragma	code

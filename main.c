@@ -109,7 +109,6 @@ void Init(void)
 	PIE1bits.RC1IE = 1; // enable USART receive interrupt
 	PIR1 = 0; // clear all peripheral flags
 	
-	
 	TRISBbits.RB1 = 1;
 	INTCON3 = 0;
 	INTCON3bits.INT1IE = 1;

@@ -90,9 +90,9 @@ DeclareTask(LCD);
 volatile unsigned char stack0[DEFAULT_STACK_SIZE];
 #pragma		udata      STACK_B   
 volatile unsigned char lcd_stack[DEFAULT_STACK_SIZE];
-#pragma		udata
+#pragma		udata	   STACK_C
 volatile unsigned char stack2[DEFAULT_STACK_SIZE];
-#pragma		udata
+#pragma		udata	   STACK_D
 volatile unsigned char stack3[DEFAULT_STACK_SIZE];
 #pragma		udata
 
