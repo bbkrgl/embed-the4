@@ -1,40 +1,33 @@
 #include "common.h"
 
-/**********************************************************************
- * ----------------------- GLOBAL VARIABLES ---------------------------
- **********************************************************************/
+/**
+ * Critical values indicate that the corresponding command must be sent to the simulator.
+ * They are low enough so that no extra money is spent
+ */
 
 #define FEED_COST 80
 #define FEED_RESTORE 60
 #define FEED_CRITICAL 20
 
-
 #define WATER_COST 30
 #define WATER_RESTORE 30
 #define WATER_CRITICAL 20
-
 
 #define PLAY_COST 150
 #define PLAY_RESTORE 80
 #define PLAY_CRITICAL 20
 
-/**********************************************************************
- * ----------------------- LOCAL FUNCTIONS ----------------------------
- **********************************************************************/
-
-// send all commands periodically (T = 50 ms))
-
-TASK(TASK0)
+TASK(MAIN_TSK)
 {
-	SetRelAlarm(ALARM_TSK0, 50, 60);
+	SetRelAlarm(ALARM_TSK0, 50, 50);
 	while (1) {
-		WaitEvent(SEND_CMD_EVENT);
+		WaitEvent(SEND_CMD_EVENT); // Wait for timing
 		ClearEvent(SEND_CMD_EVENT);
 
-		if (cmd_in == END) // TODO: Use events??? No just suspend TASK0 in the 
+		if (cmd_in == END)
 			break;
 
-		WaitEvent(TRANSMISSION_DONE);
+		WaitEvent(TRANSMISSION_DONE); // Wait for the ongoing transmission to be done
 		ClearEvent(TRANSMISSION_DONE);
 
 		if (hunger_meter < FEED_CRITICAL && curr_money >= FEED_COST) {
@@ -59,7 +52,6 @@ TASK(TASK0)
 		}
 
 		if (update_lcd) {
-			update_lcd = 0;
 			updateLCD();
 			update_lcd = 0;
 		}

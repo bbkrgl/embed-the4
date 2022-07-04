@@ -4,10 +4,6 @@
 #include "lcd.h"
 #include "stdlib.h"
 
-/**********************************************************************
- * ----------------------- GLOBAL VARIABLES ---------------------------
- **********************************************************************/
-
 command cmd_out_ = -1;
 command cmd_out = CHECK;
 command cmd_in = -1;
@@ -29,8 +25,6 @@ unsigned int hunger_meter = 100;
 unsigned int happy_meter = 100;
 unsigned int thirst_meter = 100;
 unsigned char update_lcd = 0;
-
-unsigned char money_opportunity = 0;
 
 LCDdisplayState LCDstate = INIT;
 
@@ -56,9 +50,6 @@ void updateLCD()
 	memset(money_arr, 0, 11);
 	itoa(m2use, money_arr);
 	money_len = strlen(money_arr);
-
-	money_display[0] = 'M', money_display[1] = 'O',money_display[2] = 'N',
-	money_display[3] = 'E', money_display[4] = 'Y', money_display[5] = ':';
 
 	for(i = 0; i < (10 - money_len); i++)
 		money_display[i + 6] = ' ';
@@ -143,13 +134,12 @@ void transmitDataISR()
 		TXSTA1bits.TXEN = 0;
 		cmd_out_ = CHECK;
 		
-		SetEvent(TASK0_ID, TRANSMISSION_DONE);
+		SetEvent(MAIN_TSK_ID, TRANSMISSION_DONE);
 		return;
 	}
 	TXREG1 = cmd_list[cmd_out_][trans_ind++];
 }
 
-/* Invoked when receive interrupt occurs; meaning that data is received */
 void dataReceiveISR()
 {
 	char tmp = RCREG1;
@@ -172,8 +162,6 @@ void dataReceiveISR()
 
 	recv_buf[recv_ind++] = tmp;
 }
-
-// Command receiver from serial communication
 
 void parseBuffer()
 {
@@ -199,9 +187,9 @@ void parseBuffer()
 	case 'G':
 		// GOXX  --  GO Command
 		cmd_in = GO;
-		money = recv_buf[2]; // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-		money <<= 8; // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-		money += recv_buf[3]; // FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+		money = recv_buf[2];
+		money <<= 8;
+		money += recv_buf[3];
 		curr_money = money;
 		break;
 	case 'A':
@@ -209,8 +197,7 @@ void parseBuffer()
 		cmd_in = ALERT_STR;
 		for (index = 1; index < 9; index++)
 			alert_string[index - 1] = recv_buf[index];
-		money_opportunity = 1;
-		SetEvent(TASK3_ID, HASH_GO);
+		SetEvent(HASH_TSK_ID, HASH_GO);
 		break;
 	case 'M':
 		// MXX  --  Payment Response

@@ -19,13 +19,12 @@
       <itemPath>common.c</itemPath>
       <itemPath>common.h</itemPath>
       <itemPath>taskdesc.c</itemPath>
-      <itemPath>tsk_task0.c</itemPath>
-      <itemPath>tsk_task1.c</itemPath>
       <itemPath>int.c</itemPath>
-      <itemPath>tsk_task2.c</itemPath>
-      <itemPath>tsk_task3.c</itemPath>
       <itemPath>lcd.c</itemPath>
       <itemPath>lcd.h</itemPath>
+      <itemPath>main_tsk.c</itemPath>
+      <itemPath>init_tsk.c</itemPath>
+      <itemPath>hash_tsk.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

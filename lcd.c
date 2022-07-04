@@ -39,7 +39,7 @@ unsigned char LCDchar[LINE][COLUMN];
  * 
  **********************************************************************/
 
-TASK(LCD)
+TASK(LCD_TSK)
 {
 	InitLCD();
 
@@ -164,7 +164,7 @@ void Delay_LCD_ms(unsigned int delay)
 {
 	SetRelAlarm(LCD_ALARM_ID, delay, 0);
 	WaitEvent(ALARM_EVENT);
-	GetEvent(LCD_ID, &LCDevent);
+	GetEvent(LCD_TSK_ID, &LCDevent);
 	if (LCDevent & ALARM_EVENT)
 		ClearEvent(ALARM_EVENT);
 	return;
@@ -211,7 +211,7 @@ void InitLCD(void)
 	WriteCommandToLCD(0x0C); //display on,cursor off,blink off //OxOC cursor offf
 	WriteCommandToLCD(0x01); //clear display
 
-	SetEvent(TASK2_ID, LCD_DONE);
+	SetEvent(INIT_TSK_ID, LCD_DONE);
 }
 
 /**********************************************************************
@@ -228,7 +228,7 @@ void LcdPrintString(const char *s, unsigned char positionX, unsigned char positi
 		LCDchar[positionY][positionX] = *s++;
 		positionX++;
 	}
-	SetEvent(LCD_ID, LCD_EVENT);
+	SetEvent(LCD_TSK_ID, LCD_EVENT);
 }
 
 /**********************************************************************
@@ -243,7 +243,7 @@ void LcdPrintData(unsigned char value, unsigned char positionX, unsigned char po
 {
 	LCDchar[positionY][positionX] = 0x30 + (value / 10);
 	LCDchar[positionY][positionX + 1] = 0x30 + (value % 10);
-	SetEvent(LCD_ID, LCD_EVENT);
+	SetEvent(LCD_TSK_ID, LCD_EVENT);
 }
 
 /**********************************************************************
@@ -256,7 +256,7 @@ void ClearLCDScreen(void) // Clear the Screen and return cursor to zero position
 {
 	WriteCommandToLCD(0x01); // Clear the screen
 	Delay_LCD_ms(2); // Delay for cursor to return at zero position
-	SetEvent(LCD_ID, LCD_EVENT);
+	SetEvent(LCD_TSK_ID, LCD_EVENT);
 }
 
 /**********************************************************************

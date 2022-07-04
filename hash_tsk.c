@@ -1,7 +1,11 @@
 #include "common.h"
 #include "hash.h"
 
-TASK(TASK3)
+/**
+ * Hash task
+ */
+
+TASK(HASH_TSK)
 {
 	while (1) {
 		WaitEvent(HASH_GO);
@@ -9,7 +13,6 @@ TASK(TASK3)
 		
 		compute_hash(alert_string, hash);
 		hash_done = 1;
-		money_opportunity = 0;
 	}
 
 	TerminateTask();

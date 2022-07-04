@@ -42,13 +42,12 @@ void InterruptVectorL(void)
 
 	if (INTCONbits.TMR0IF == 1)
 		AddOneTick();
-	/* Here are the other interrupts you would desire to manage */
-	
+
 	if (PIR1bits.TX1IF)
 		transmitDataISR();
 
 	if (PIR1bits.RC1IF) {
-		PIR1bits.RC1IF = 0; // clear RC1IF flag
+		PIR1bits.RC1IF = 0;
 		dataReceiveISR();
 	}
 
@@ -59,23 +58,9 @@ void InterruptVectorL(void)
 
 	if (INTCON3bits.INT1IF) {
 		INTCON3bits.INT1IF = 0;
-		switch (LCDstate) {
-		case HUNGER:
-			LCDstate = HAPPY;
-			break;
-		case HAPPY:
-			LCDstate = THIRST;
-			break;
-		case INIT:
-		case THIRST:
-			LCDstate = HUNGER;
-			break;
-		}
-
-		if (update_lcd != 1)
-			update_lcd = 1;
+		switchLCD();
 	}
-	
+
 	LeaveISR();
 }
 #pragma	code
